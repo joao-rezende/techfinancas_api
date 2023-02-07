@@ -1,0 +1,7 @@
+PORT=3080
+JSON_DIRNAME='/var/www/html/techfinancas_api/src/data/'
+DB_USERNAME=username
+DB_HOST=host
+DB_NAME=database
+DB_PASSWORD=password
+DB_PORT=port
