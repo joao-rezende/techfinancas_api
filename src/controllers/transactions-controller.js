@@ -6,19 +6,10 @@ try {
   console.error(error);
 }
 
-const types = {
-  '1': 'Income',
-  '2': 'Expense',
-  '3': 'Transfer',
-  '4': 'Loan',
-  '5': 'Investment'
-};
-
 async function create(req, res) {
-  const { description, amount } = req.body;
-  const type = types[req.body.type];
+  const { description, amount, date, type } = req.body;
 
-  const transaction = { description, amount, type };
+  const transaction = { description, amount, date, type };
   const created = await transactionsService.insert(transaction);
 
   if (!created) {
@@ -36,10 +27,9 @@ async function show(req, res) {
 
 async function update(req, res) {
   const { id } = req.params;
-  const { description, amount } = req.body;
-  const type = types[req.body.type];
+  const { description, amount, date, type } = req.body;
 
-  const updatedTransaction = { description, amount, type };
+  const updatedTransaction = { description, amount, date, type };
   const updated = await transactionsService.edit(id, updatedTransaction);
 
   if (!updated) {
