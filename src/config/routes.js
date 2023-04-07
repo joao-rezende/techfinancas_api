@@ -1,5 +1,10 @@
 module.exports = app => {
   const transaction = app.controllers['transactions-controller'];
+  const info = app.controllers['info-controller'];
+  
+  app.route('/api/v1/salvar-info').post((req, res) => {
+    info.create(req, res);
+  });
 
   app.route('/api/v1/transactions').get((req, res) => {
     transaction.show(req, res);
