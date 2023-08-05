@@ -11,8 +11,8 @@ class TransactionService {
     }
   }
 
-  async list() {
-    return await this.transactionsRepository.list();
+  async list(filters) {
+    return await this.transactionsRepository.list(filters);
   }
 
   async insert(transaction) {

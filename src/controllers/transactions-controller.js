@@ -1,15 +1,26 @@
 const TransactionsService = require("../services/transactions-service");
 let transactionsService = null;
 try {
-  transactionsService = new TransactionsService("json");
+  transactionsService = new TransactionsService("database");
 } catch (error) {
   console.error(error);
 }
 
 async function create(req, res) {
-  const { description, amount, date, type } = req.body;
+  const { description, amount, type, completed } = req.body;
 
-  const transaction = { description, amount, date, type };
+  if (!description || !amount || !type || !completed) {
+    return res.status(400).send("Invalid values");
+  }
+
+  let { date } = req.body;
+
+  if (!date) {
+    const now = new Date();
+    date = now.toLocaleString()
+  }
+
+  const transaction = { description, amount, date, type, completed };
   const created = await transactionsService.insert(transaction);
 
   if (!created) {
@@ -20,16 +31,16 @@ async function create(req, res) {
 }
 
 async function show(req, res) {
-  const transactions = await transactionsService.list();
+  const transactions = await transactionsService.list(req.query);
 
   res.json(transactions);
 }
 
 async function update(req, res) {
   const { id } = req.params;
-  const { description, amount, date, type } = req.body;
+  const { description, amount, date, type, completed } = req.body;
 
-  const updatedTransaction = { description, amount, date, type };
+  const updatedTransaction = { description, amount, date, type, completed };
   const updated = await transactionsService.edit(id, updatedTransaction);
 
   if (!updated) {
@@ -43,7 +54,7 @@ async function remove(req, res) {
   const { id } = req.params;
 
   const removed = await transactionsService.delete(id);
-  
+
   if (!removed) {
     return res.status(500).send("Error removing transaction");
   }

@@ -1,4 +1,3 @@
-// json-transactions-repository.js
 require('dotenv').config();
 const TransactionsRepository = require("./transactions-repository");
 const fs = require("fs");
