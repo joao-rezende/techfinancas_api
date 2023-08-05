@@ -54,7 +54,7 @@ class DatabaseTransactionsRepository extends TransactionsRepository {
       id
     ];
     
-    await database.query(query, values);
+    return await database.query(query, values);
   }
 
   async delete(id) {
